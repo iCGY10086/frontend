@@ -443,7 +443,10 @@
     "fullEncryption": "Zaszyfrowano algorytmem {{cipher}}",
     "partialEncryption": "Częściowo zaszyfrowane",
     "partialEncryptionDes": "Niektóre wersje lub inne dane tego pliku nie są zaszyfrowane.",
-    "noEncryption": "Niezaszyfrowane"
+    "noEncryption": "Niezaszyfrowane",
+    "ftsStatus": "Indeks pełnotekstowy",
+    "ftsIndexed": "Zindeksowane",
+    "ftsNotIndexed": "Niezindeksowane"
   },
   "modals": {
     "includePasswordInShareLink": "Dołącz hasło do linku udostępniania",
@@ -825,6 +828,12 @@
     "downloaded": "Pobrano",
     "importingFiles": "Importuj pliki",
     "importingFilesDes": "Indeksuj pliki i importuj je do określonego folderu.",
+    "ftsNukingIndex": "Usuwanie starego indeksu",
+    "ftsNukingIndexDes": "Usuń wszystkie istniejące dokumenty indeksu.",
+    "ftsIndexingFiles": "Budowanie indeksu",
+    "ftsIndexingFilesDes": "Przejdź przez wszystkie pliki, wyodrębnij zawartość i zbuduj indeks.",
+    "rebuildFTSIndex": "Przebuduj indeks wyszukiwania pełnotekstowego (Łączna liczba plików: {{total}})",
+    "ftsIndexedFiles": "Zindeksowane pliki",
     "importedFiles": "Zaimportowane pliki",
     "indexedFiles": "Zaindeksowane pliki",
     "extractedFiles": "Rozpakowane pliki",

@@ -443,7 +443,10 @@
     "fullEncryption": "使用 {{cipher}} 加密",
     "partialEncryption": "部分加密",
     "partialEncryptionDes": "此文件的某些版本或其他数据未被加密。",
-    "noEncryption": "未加密"
+    "noEncryption": "未加密",
+    "ftsStatus": "全文索引",
+    "ftsIndexed": "已索引",
+    "ftsNotIndexed": "未索引"
   },
   "modals": {
     "includePasswordInShareLink": "在链接中包含密码",
@@ -822,6 +825,12 @@
     "downloaded": "已下载",
     "importingFiles": "导入文件",
     "importingFilesDes": "检索文件并将其导入到指定目录。",
+    "ftsNukingIndex": "清除旧索引",
+    "ftsNukingIndexDes": "删除所有现有索引文档。",
+    "ftsIndexingFiles": "建立索引",
+    "ftsIndexingFilesDes": "遍历所有文件，提取内容并建立索引。",
+    "rebuildFTSIndex": "重建全文搜索索引 (总计文件: {{total}})",
+    "ftsIndexedFiles": "已索引文件",
     "importedFiles": "已导入文件",
     "indexedFiles": "已索引文件",
     "extractedFiles": "已解压文件数量",

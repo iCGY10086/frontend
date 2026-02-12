@@ -443,7 +443,10 @@
     "fullEncryption": "{{cipher}} で暗号化",
     "partialEncryption": "部分的に暗号化",
     "partialEncryptionDes": "このファイルの一部のバージョンまたは他のデータは暗号化されていません。",
-    "noEncryption": "暗号化されていません"
+    "noEncryption": "暗号化されていません",
+    "ftsStatus": "全文インデックス",
+    "ftsIndexed": "インデックス済み",
+    "ftsNotIndexed": "未インデックス"
   },
   "modals": {
     "includePasswordInShareLink": "共有リンクにパスワードを含める",
@@ -825,6 +828,12 @@
     "downloaded": "ダウンロード済み",
     "importingFiles": "ファイルをインポート",
     "importingFilesDes": "ファイルを検索し、指定されたフォルダにインポートします。",
+    "ftsNukingIndex": "古いインデックスを削除中",
+    "ftsNukingIndexDes": "既存のすべてのインデックスドキュメントを削除します。",
+    "ftsIndexingFiles": "インデックスを構築中",
+    "ftsIndexingFilesDes": "すべてのファイルを走査し、コンテンツを抽出してインデックスを構築します。",
+    "rebuildFTSIndex": "全文検索インデックスを再構築（ファイル総数: {{total}}）",
+    "ftsIndexedFiles": "インデックス済みファイル",
     "importedFiles": "インポート済みファイル",
     "indexedFiles": "インデックス済みファイル",
     "extractedFiles": "解凍済みファイル数",

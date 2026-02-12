@@ -478,7 +478,10 @@
     "fullEncryption": "Criptografado com {{cipher}}",
     "partialEncryption": "Parcialmente criptografado",
     "partialEncryptionDes": "Algumas versões ou outros dados deste arquivo não estão criptografados.",
-    "noEncryption": "Não criptografado"
+    "noEncryption": "Não criptografado",
+    "ftsStatus": "Índice de texto completo",
+    "ftsIndexed": "Indexado",
+    "ftsNotIndexed": "Não indexado"
   },
   "modals": {
     "includePasswordInShareLink": "Incluir senha no link de compartilhamento",
@@ -896,6 +899,12 @@
     "downloaded": "Baixado",
     "importingFiles": "Importar arquivos",
     "importingFilesDes": "Indexar arquivos e importá-los para a pasta especificada.",
+    "ftsNukingIndex": "Limpando índice antigo",
+    "ftsNukingIndexDes": "Excluir todos os documentos de índice existentes.",
+    "ftsIndexingFiles": "Construindo índice",
+    "ftsIndexingFilesDes": "Percorrer todos os arquivos, extrair conteúdo e construir índice.",
+    "rebuildFTSIndex": "Reconstruir índice de pesquisa de texto completo (Total de arquivos: {{total}})",
+    "ftsIndexedFiles": "Arquivos indexados",
     "importedFiles": "Arquivos importados",
     "indexedFiles": "Arquivos indexados",
     "extractedFiles": "Arquivos extraídos",

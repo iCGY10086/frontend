@@ -478,7 +478,10 @@
     "fullEncryption": "Зашифровано с помощью {{cipher}}",
     "partialEncryption": "Частично зашифровано",
     "partialEncryptionDes": "Некоторые версии или другие данные этого файла не зашифрованы.",
-    "noEncryption": "Не зашифровано"
+    "noEncryption": "Не зашифровано",
+    "ftsStatus": "Полнотекстовый индекс",
+    "ftsIndexed": "Проиндексировано",
+    "ftsNotIndexed": "Не проиндексировано"
   },
   "modals": {
     "includePasswordInShareLink": "Включить пароль в ссылку на публикацию",
@@ -896,6 +899,12 @@
     "downloaded": "Загружено",
     "importingFiles": "Импорт файлов",
     "importingFilesDes": "Извлечение файлов и импорт их в указанную папку.",
+    "ftsNukingIndex": "Очистка старого индекса",
+    "ftsNukingIndexDes": "Удаление всех существующих документов индекса.",
+    "ftsIndexingFiles": "Построение индекса",
+    "ftsIndexingFilesDes": "Обход всех файлов, извлечение содержимого и построение индекса.",
+    "rebuildFTSIndex": "Перестроить полнотекстовый индекс (Всего файлов: {{total}})",
+    "ftsIndexedFiles": "Проиндексированные файлы",
     "importedFiles": "Импортированные файлы",
     "indexedFiles": "Проиндексированные файлы",
     "extractedFiles": "Извлечённые файлы",

@@ -443,7 +443,10 @@
     "fullEncryption": "Encrypted with {{cipher}}",
     "partialEncryption": "Partially encrypted",
     "partialEncryptionDes": "Some versions or other data of this file are not encrypted.",
-    "noEncryption": "Not encrypted"
+    "noEncryption": "Not encrypted",
+    "ftsStatus": "Full-text index",
+    "ftsIndexed": "Indexed",
+    "ftsNotIndexed": "Not indexed"
   },
   "modals": {
     "includePasswordInShareLink": "Include password in share link",
@@ -822,6 +825,12 @@
     "downloaded": "Downloaded",
     "importingFiles": "Import files",
     "importingFilesDes": "Index files and importing them to the specified folder.",
+    "ftsNukingIndex": "Clearing old index",
+    "ftsNukingIndexDes": "Delete all existing index documents.",
+    "ftsIndexingFiles": "Building index",
+    "ftsIndexingFilesDes": "Traverse all files, extract content and build index.",
+    "rebuildFTSIndex": "Rebuild full-text search index (Total files: {{total}})",
+    "ftsIndexedFiles": "Indexed files",
     "importedFiles": "Imported files",
     "indexedFiles": "Indexed files",
     "extractedFiles": "Extracted files",

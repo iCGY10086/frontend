@@ -106,6 +106,7 @@ import {
   DownloadWorkflowService,
   ImportWorkflowService,
   ListTaskService,
+  RebuildFTSIndexWorkflowService,
   SetDownloadFilesService,
   TaskListResponse,
   TaskProgresses,
@@ -2147,6 +2148,23 @@ export function sendFullTextSearch(query: string, offset?: number): ThunkRespons
         {
           method: "GET",
           params,
+        },
+        {
+          ...defaultOpts,
+        },
+      ),
+    );
+  };
+}
+
+export function sendRebuildFTSIndex(req: RebuildFTSIndexWorkflowService): ThunkResponse<TaskResponse> {
+  return async (dispatch, _getState) => {
+    return await dispatch(
+      send(
+        "/workflow/rebuildFtsIndex",
+        {
+          data: req,
+          method: "POST",
         },
         {
           ...defaultOpts,
