@@ -235,7 +235,8 @@ export function fileClicked(index: number, file: FileResponse, e?: React.MouseEv
   return async (dispatch, _getState) => {
     const ctrlKeyPressed = e && (e.ctrlKey || e.metaKey || e.shiftKey);
     const isTrash = file.metadata && file.metadata[Metadata.restore_uri];
-    if (file.type === FileType.folder && !ctrlKeyPressed && !isTrash) {
+    const folderClickAction = SessionManager.getWithFallback(UserSettings.FolderClickAction);
+    if (file.type === FileType.folder && !ctrlKeyPressed && !isTrash && folderClickAction === "open") {
       dispatch(openFile(index, file));
     } else {
       dispatch(selectFile(index, file, e));
@@ -250,8 +251,7 @@ export function fileClicked(index: number, file: FileResponse, e?: React.MouseEv
 export function fileDoubleClicked(index: number, file: FileResponse, e?: React.MouseEvent<HTMLElement>): AppThunk {
   return async (dispatch, _getState) => {
     const actionOpt = getActionOpt([file], Viewers);
-
-    if (actionOpt.showOpen) {
+    if (actionOpt.showOpen || actionOpt.showEnter) {
       dispatch(openFile(index, file));
     } else if (file.type == FileType.file && actionOpt.showDownload) {
       dispatch(downloadSingleFile(file));
