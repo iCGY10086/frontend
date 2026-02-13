@@ -781,6 +781,25 @@ export function patchFileMetadata(index: number, files: FileResponse[], patches:
   };
 }
 
+export function patchCustomProp(
+  index: number,
+  file: FileResponse,
+  propId: string,
+  value: string,
+  remove?: boolean,
+): AppThunk<Promise<void>> {
+  return async (dispatch) => {
+    const patches: MetadataPatch[] = [
+      {
+        key: `props:${propId}`,
+        value,
+        remove,
+      },
+    ];
+    await dispatch(patchFileMetadata(index, [file], patches));
+  };
+}
+
 export function applyIconColor(
   index: number,
   files: FileResponse[],

@@ -1,5 +1,5 @@
-import { Box, Fade, InputBase, PopoverProps, Tooltip, Typography, useMediaQuery, useTheme } from "@mui/material";
-import { memo, useCallback, useEffect, useMemo, useState } from "react";
+import { Box, Fade, Grow, InputBase, PopoverProps, Tooltip, Typography, useMediaQuery, useTheme } from "@mui/material";
+import React, { memo, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { sizeToString } from "../../../../util";
 import CrUri, { SearchParam } from "../../../../util/uri.ts";
 import FileSmallIcon from "../FileSmallIcon.tsx";
@@ -13,16 +13,17 @@ import HoverPopover from "material-ui-popup-state/HoverPopover";
 import Highlighter from "react-highlight-words";
 import { useTranslation } from "react-i18next";
 import { TransitionGroup } from "react-transition-group";
-import { FileType, Metadata } from "../../../../api/explorer.ts";
+import { CustomProps, FileType, Metadata } from "../../../../api/explorer.ts";
 import { bindDelayedHover } from "../../../../hooks/delayedHover.tsx";
 import { useAppDispatch, useAppSelector } from "../../../../redux/hooks.ts";
-import { loadFileThumb } from "../../../../redux/thunks/file.ts";
+import { loadFileThumb, patchCustomProp } from "../../../../redux/thunks/file.ts";
 import AutoHeight from "../../../Common/AutoHeight.tsx";
 import { NoWrapBox } from "../../../Common/StyledComponents.tsx";
 import TimeBadge from "../../../Common/TimeBadge.tsx";
 import Info from "../../../Icons/Info.tsx";
 import { DisplayOption } from "../../ContextMenu/useActionDisplayOpt.ts";
 import FileBadge from "../../FileBadge.tsx";
+import { FmIndexContext } from "../../FmIndexContext.tsx";
 import { CustomPropsItem, customPropsMetadataPrefix } from "../../Sidebar/CustomProps/CustomProps.tsx";
 import { getPropsContent } from "../../Sidebar/CustomProps/CustomPropsItem.tsx";
 import {
@@ -310,6 +311,101 @@ const FolderCell = memo(({ path }: { path: string }) => {
   );
 });
 
+interface CustomPropsCellProps {
+  file: FmFile;
+  customProp: CustomPropsItem;
+  readOnly?: boolean;
+}
+
+const CustomPropsCell = memo(({ file, customProp, readOnly }: CustomPropsCellProps) => {
+  const dispatch = useAppDispatch();
+  const fmIndex = useContext(FmIndexContext);
+  const [loading, setLoading] = useState(false);
+
+  const stopPropagation = useCallback((e: React.SyntheticEvent) => {
+    e.stopPropagation();
+  }, []);
+
+  const onChange = useCallback(
+    (value: string) => {
+      setLoading(true);
+      dispatch(patchCustomProp(fmIndex, file, customProp.id, value)).finally(() => {
+        setLoading(false);
+      });
+    },
+    [dispatch, fmIndex, file, customProp.id],
+  );
+
+  return (
+    <Box
+      onClick={stopPropagation}
+      onDoubleClick={stopPropagation}
+      onMouseDown={stopPropagation}
+      onMouseMove={stopPropagation}
+      onDragStart={stopPropagation}
+      sx={{ width: "100%" }}
+    >
+      {getPropsContent(customProp, onChange, loading, readOnly)}
+    </Box>
+  );
+});
+
+interface AddCustomPropsCellProps {
+  file: FmFile;
+  propDef: CustomProps;
+  readOnly?: boolean;
+}
+
+const AddCustomPropsCell = memo(({ file, propDef, readOnly }: AddCustomPropsCellProps) => {
+  const { t } = useTranslation();
+  const dispatch = useAppDispatch();
+  const fmIndex = useContext(FmIndexContext);
+  const [mouseOver, setMouseOver] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const stopPropagation = useCallback((e: React.SyntheticEvent) => {
+    e.stopPropagation();
+  }, []);
+
+  const onAdd = useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation();
+      if (loading) return;
+      setLoading(true);
+      dispatch(patchCustomProp(fmIndex, file, propDef.id, propDef.default ?? "")).finally(() => {
+        setLoading(false);
+      });
+    },
+    [dispatch, fmIndex, file, propDef, loading],
+  );
+
+  if (readOnly) {
+    return <Box />;
+  }
+
+  return (
+    <Box
+      onClick={stopPropagation}
+      onDoubleClick={stopPropagation}
+      onDragStart={stopPropagation}
+      onMouseEnter={() => setMouseOver(true)}
+      onMouseLeave={() => setMouseOver(false)}
+      sx={{ width: "100%", minHeight: "1.5em", display: "flex", alignItems: "center" }}
+    >
+      <Grow in={mouseOver} unmountOnExit>
+        <Typography
+          variant="body2"
+          color="primary"
+          onClick={onAdd}
+          sx={{ cursor: "pointer", opacity: loading ? 0.5 : 1 }}
+        >
+          {t("fileManager.add")}
+        </Typography>
+      </Grow>
+    </Box>
+  );
+});
+
 const MediaElementsCell = memo(({ element }: { element?: MediaMetaElements | string }) => {
   if (!element) {
     return <Box />;
@@ -323,24 +419,23 @@ const MediaElementsCell = memo(({ element }: { element?: MediaMetaElements | str
 const Cell = memo((props: CellProps) => {
   const { t } = useTranslation();
   const customProps = useAppSelector((state) => state.siteConfig.explorer?.config?.custom_props);
-  const customProp = useMemo(() => {
+  const customPropDef = useMemo(() => {
     if (!props.column.props?.custom_props_id || props.column.type !== ColumType.custom_props) {
       return undefined;
     }
-    const customProp = customProps?.find((p) => p.id === props.column.props?.custom_props_id);
-    if (!customProp) {
-      return undefined;
-    }
-    const value = props.file.metadata?.[`${customPropsMetadataPrefix}${customProp.id}`];
-    if (value === undefined) {
-      return undefined;
-    }
+    return customProps?.find((p) => p.id === props.column.props?.custom_props_id);
+  }, [customProps, props.column.props?.custom_props_id, props.column.type]);
+
+  const customProp = useMemo(() => {
+    if (!customPropDef) return undefined;
+    const value = props.file.metadata?.[`${customPropsMetadataPrefix}${customPropDef.id}`];
+    if (value === undefined) return undefined;
     return {
-      id: customProp.id,
-      props: customProp,
+      id: customPropDef.id,
+      props: customPropDef,
       value: value ?? "",
     } as CustomPropsItem;
-  }, [customProps, props.column.props?.custom_props_id, props.column.type, props.file.metadata]);
+  }, [customPropDef, props.file.metadata]);
 
   const { file, column, uploading, fileTag, search, isSelected } = props;
   switch (column.type) {
@@ -416,7 +511,14 @@ const Cell = memo((props: CellProps) => {
       return <MediaElementsCell element={getCountry(file)} />;
     case ColumType.custom_props:
       if (customProp) {
-        return getPropsContent(customProp, () => {}, false, true);
+        return (
+          <CustomPropsCell file={file} customProp={customProp} readOnly={!props.actionDisplayOpt?.showCustomProps} />
+        );
+      }
+      if (customPropDef) {
+        return (
+          <AddCustomPropsCell file={file} propDef={customPropDef} readOnly={!props.actionDisplayOpt?.showCustomProps} />
+        );
       }
       return <Box />;
   }
