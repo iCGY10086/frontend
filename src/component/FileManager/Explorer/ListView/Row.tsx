@@ -13,7 +13,8 @@ const RowContainer = styled(Box)<{
   transparent?: boolean;
   isDropOver?: boolean;
   disabled?: boolean;
-}>(({ theme, disabled, transparent, isDropOver, selected }) => {
+  taller?: boolean;
+}>(({ theme, disabled, transparent, isDropOver, selected, taller }) => {
   let bgColor = "initial";
   let bgColorHover = theme.palette.action.hover;
 
@@ -22,7 +23,7 @@ const RowContainer = styled(Box)<{
     bgColorHover = bgColor;
   }
   return {
-    minHeight: "36px",
+    minHeight: taller ? "60px" : "36px",
     borderBottom: `1px solid ${theme.palette.divider}`,
     display: "flex",
     backgroundColor: bgColor,
@@ -45,7 +46,7 @@ const Column = styled(Box)<{ w: number }>(({ theme, w }) => ({
 }));
 
 const Row = memo((props: FileBlockProps) => {
-  const { file, columns, search, isDragging, isDropOver } = props;
+  const { file, columns, search, isDragging, isDropOver, showThumb } = props;
   const dispatch = useAppDispatch();
 
   const {
@@ -56,7 +57,6 @@ const Row = memo((props: FileBlockProps) => {
     uploading,
     ref,
     inView,
-    showLock,
     fileTag,
     onClick,
     onDoubleClicked,
@@ -95,6 +95,7 @@ const Row = memo((props: FileBlockProps) => {
       isDropOver={isDropOver && !isDragging}
       ref={setRefFunc}
       selected={!!isSelected}
+      taller={showThumb}
       onMouseDown={stopPop}
       onClick={onClick}
       onDoubleClick={onDoubleClicked}
@@ -120,8 +121,8 @@ const Row = memo((props: FileBlockProps) => {
                 file={file}
                 uploading={uploading}
                 fileTag={fileTag}
-                showLock={showLock}
                 noThumb={noThumb}
+                showThumb={showThumb}
                 thumbWidth={thumbWidth}
                 thumbHeight={thumbHeight}
               />
